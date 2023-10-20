@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Messageboard</title>
+	</head>
+	<body>
+		<h1>Messageboard</h1>
+		<table>
+			<tr>
+				<th style="text-align:left">Username: </th>
+				<td>{{user.username}}</td>
+			</tr>
+		</table>
+
+
+		<form action='/' method="GET">
+			<input type="submit" value="Homepage"/>
+		</form>
+		<form action='logout/' method="POST">
+			{% csrf_token %}
+			<input type="submit" value="Logout"/>
+		</form>
+		
+		<h2>Found messages</h2>
+
+		<ul>
+		{% for m in messages %}
+
+		<li>
+			&lt{{ m.date|date:"d.m.Y H:i:s" }}&gt {{m.user}}: {{ m.content|safe }}
+			<form action='remove/' method="GET">
+				<input type="hidden" name="pk" value={{ m.pk }}>
+				<input type="submit" value="Delete"/>
+			</form>
+		</li>
+
+		{% endfor %}
+		</ul>
+	</body>
+</html>
