@@ -6,15 +6,17 @@ from .models import Message
 
 @login_required
 def addView(request):
-	if request.method == "GET":
+	if request.method == "GET": # change to "POST"
 		m = Message(user=request.user, content=request.GET.get('content'))
 		m.save()
 	return redirect('/')
 
 @login_required
 def removeView(request):
-	if request.method == "GET":
+	if request.method == "GET": # change to "POST"
 		m = Message.objects.get(pk=request.GET.get('pk'))
+		#if m.user != request.user:
+		#	return HttpResponse(status=403)
 		m.delete()
 	return redirect('/')
 
@@ -23,6 +25,7 @@ def searchView(request):
 	if request.method == "GET":
 		content = request.GET.get('content')
 		messages = Message.objects.raw(f"SELECT * FROM messageboard_message WHERE content LIKE '%{content}%'")
+		# messages = Message.objects.filter(content__contains=content)
 		return render(request, 'pages/search.html', {'messages': messages})
 	return redirect('/')
 

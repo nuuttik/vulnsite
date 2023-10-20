@@ -24,9 +24,10 @@
 		{% for m in messages %}
 
 		<li>
-			&lt{{ m.date|date:"d.m.Y H:i:s" }}&gt {{m.user}}: {{ m.content|safe }}
+			&lt{{ m.date|date:"d.m.Y H:i:s" }}&gt {{m.user}}: {{ m.content|safe }} <!-- Remove |safe -->
 			{% if m.user == user %}
-			<form action='remove/' method="GET">
+			<form action='remove/' method="GET"> <!-- Change to "POST" -->
+				<!-- {% csrf_token %} -->
 				<input type="hidden" name="pk" value={{ m.pk }}>
 				<input type="submit" value="Delete"/>
 			</form>
@@ -39,7 +40,8 @@
 
 		<h2>Send new message</h2>
 
-		<form action='add/' method="GET">
+		<form action='add/' method="GET"> <!-- Change to "POST" -->
+			<!-- {% csrf_token %} -->
 			<input type="text" name="content"/><br/>
 			<input type="submit" value="Send"/>
 		</form>
